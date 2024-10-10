@@ -18,7 +18,7 @@ class CSVAnalyser():
 
         #open the csv file
         try:
-            with open('canvas_export_1.csv', mode = 'r') as file:
+            with open('..\canvas_export_1.csv', mode = 'r') as file:
                 csv_reader = csv.read(file)
                 first_row = next(csv_reader)
         except Exception:
