@@ -1,5 +1,7 @@
 import csv
 import pandas as pd
+import os
+
 '''
 Class for analysing CSV exported Canvas courses
 with Ally suggestions
@@ -8,21 +10,27 @@ with Ally suggestions
 for row in csv_reader:
     current_row = row
     #do stuff
-
 '''
 class CSVAnalyser():
     def __init__(self, associated_file=""):
         self.associated_file = associated_file
-        self.issues = []
+        self.acessibility_criteria = []
         first_row = ""
 
         #open the csv file
+        print(os.getcwd())
+        print(os.path.abspath(self.associated_file))
         try:
-            with open('..\canvas_export_1.csv', mode = 'r') as file:
-                csv_reader = csv.read(file)
+            with open(self.associated_file, encoding='utf-8') as file:
+                csv_reader = csv.reader(file, delimiter="\n")
                 first_row = next(csv_reader)
-        except Exception:
-            self.try_to_read_csv(False)
+        except FileNotFoundError:
+            print(f"File '{self.associated_file}' not found.")
+            return self.try_to_read_csv(False)
+        except Exception as e:
+            print(f"An unexpected error occurred: {e}")
+            return self.try_to_read_csv(False)
+
 
         #generate a list of the individual element of the first row
         list_first_row = first_row.split(",")
@@ -30,14 +38,11 @@ class CSVAnalyser():
         #generate the list of the elements not part of the accessibility rating
         list_of_non_fields = ["name", "mime type", "score", "deleted at", "library reference", "url", "checked on"]
 
-        #make the size of the issues list equal to the amount of accessibility criteria
-        self.issues = [""] * (len(list_first_row) - len(list_of_non_fields))
-
         count = 0
         for i in range(len(list_first_row)):
             #if an accessibility criteria is found, set it's corresponding value
-            if list_first_row[i] is not in list_of_non_fields:
-                self.issues[count] = ""
+            if list_first_row[i] not in list_of_non_fields:
+                self.acessibility_criteria[count] = list_first_row[i]
                 count += 1
 
     def change_associated_file(self, new_file):
@@ -83,3 +88,4 @@ class CSVAnalyser():
                     then give it's respective fields accessibility values
                     '''
 
+csv_analyzer = CSVAnalyser('canvas_export_1.csv')
