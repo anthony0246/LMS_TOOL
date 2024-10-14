@@ -41,6 +41,7 @@ class CSVAnalyser():
             #if an accessibility criteria is found, set it's corresponding value
             if list_first_row[i] not in list_of_non_fields:
                 self.accessibility_criteria.append(list_first_row[i])
+        print(len(self.accessibility_criteria))
 
     #allows us to change the file associate with the CSVAnalyzer if neccessary
     def change_associated_file(self, new_file) -> None:
@@ -68,20 +69,77 @@ class CSVAnalyser():
             # Catch any other unexpected errors
             return "Error: Unexpected error occurred"
         
+    #returns a list of 2 elements for current row being analyzed that looks like: [id, url]
+        #id is array[0] and url is array[1]
+    # def identify_id_and_url(self, current_row) -> list:
+    #     id = current_row[0]
 
+    #     for i in current_row:
+    #         if "https" in i:
+    #             return [id, i]
+            
+    #     return [id, ""]
+    
+    # def analysis_for_row_without_url(self, row) -> dict:
+    #     dict_to_return = {}
+    #     count = 0
+
+    #     for i in row:
+    #         if "0." in i:
+    #             break
+    #         else:
+    #             dict_to_return[self.list_of_non_fields[count]] = i
+    #             count += 1
+
+    #     return dict_to_return
+    
     #analysis algorithm that will evaluate every component of the CSV file
-    def run_analysis(self):
-        file_reader = self.try_to_read_csv()
-        if (type(file_reader) == str):
-            return file_reader
-        else:
-            if file_reader != None:
-                for index, row in file_reader.iterrows(): #needs to change
-                    #Skip the first row (because it 
-                    #displays the fields and not course components)
-                    '''
-                    Go through the component and try to identify what is it,
-                    then give it's respective fields accessibility values
-                    '''
+    def run_analysis(self) -> dict:
+        dict_of_course_components = {}
+
+        with open("Backend/" + self.associated_file, encoding='utf-8') as file:
+            csv_reader = csv.reader(file, delimiter="\n")
+            next(csv_reader)
+
+            for row in csv_reader:
+                row = row[0].split(",")
+                #id_and_row = self.identify_id_and_url(row)
+
+                id = row[0]
+
+                # if id_and_row[1] == "":
+                #     dict_of_course_components[id] = self.analysis_for_row_without_url(row)
+                # else:
+                #     url = id_and_row[1]
+                #     dict_of_course_components[id] = {
+                #         "url": url,
+                #     }
+
+                dict_of_course_components[id] = {}
+
+                count1 = 0
+                count2 = 0
+
+                if (":" in id):
+                    first_half = row[1]
+                    second_half = row[2]
+
+                    if (first_half[0] == '"' and second_half[-1] == '"'):
+                        combined = first_half + second_half
+                        row.pop(2)
+                        row.pop(2)
+                        row.insert(2, combined)
+
+                for i in range(len(row)):
+                    if i >= 0 and i < len(self.list_of_non_fields):
+                        dict_of_course_components[id][self.list_of_non_fields[count1]] = row[i]
+                        count1 += 1
+                    else:
+                        dict_of_course_components[id][self.accessibility_criteria[count2]] = row[i]
+                        count2 += 1
+        if ("quiz:852058" in dict_of_course_components.keys()):
+            print(dict_of_course_components["quiz:852058"])
+        return dict_of_course_components        
 
 csv_analyzer = CSVAnalyser('canvas_export_1.csv')
+print(csv_analyzer.run_analysis())
