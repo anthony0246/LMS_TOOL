@@ -1,6 +1,7 @@
 import csv
 import pandas as pd
 import os
+import copy
 
 '''
 Class for analysing CSV exported Canvas courses
@@ -12,11 +13,54 @@ for row in csv_reader:
     #do stuff
 '''
 class CSVAnalyser():
+
+    description_of_analyzed_fields = {
+        "AlternativeText:2": "Shows if the PDF, document, or presentation has at least one image without alternative text. This is a major issue.",
+        "Contrast:2": "Total number of presentation, document, and PDF files that have contrast issues. This is a major issue.",
+        "HeadingsHigherLevel:3": "Total number of PDFs. presentations, and documents that exceed the recommended H6 level of headings. This is a minor issue.",
+        "HeadingsPresence:2": "Total number of PDFs, presentations, and documents that don’t have headings. This is a major issue.",
+        "HeadingsSequential:3": "Total number of PDFs and documents that don’t have headings in a logical sequence. This is a minor issue.",
+        "HeadingsStartAtOne:3": "Total number of PDFs and documents that don’t have an H1 heading as the first heading. This is a minor issue.",
+        "HtmlBrokenLink:2": "Total number of pages that have broken links in a domain. This is a major issue.",
+        "HtmlCaption:2": "Total number of HTML content and files that have YouTubeTM videos without captions. This is a major issue.",
+        "HtmlColorContrast:2": "Total number of HTML and WYSIWYG content that have poor color contrast. This is a major issue.",
+        "HtmlDefinitionList:3": "Total number of HTML content and files that are not properly defined. For example, every form element has a label and that p elements are not used to style headings. This is a minor issue.",
+        "HtmlEmptyHeading:2": "Total number of HTML content and files that have empty headings. This is a major issue.",
+        "HtmlEmptyTableHeader:2": "Total number of HTML tables that have empty headings. This is a major issue.",
+        "HtmlHasLang:3": "Total number of HTML content and files that don’t have language presence identified. This is a minor issue.",
+        "HtmlHeadingOrder:3": "Total number of HTML content and files that don’t have headings in a logical sequence. This is a minor issue.",
+        "HtmlHeadingsPresence:2": "Total number of HTML content and files that don’t have headings. This is a major issue.",
+        "HtmlHeadingsStart:2": "Total number of HTML content and files that don’t have the appropriate H heading as the first heading. This is a major issue.",        
+        "HtmlImageAlt:2": "Total number of HTML content and files that have at least one image without alternative text. This is a major issue.",
+        "HtmlImageRedundantAlt:3": "Total number of HTML content and files that have images with the same alternative text as other images. This is a minor issue.",
+        "HtmlLabel:2": "Total number of HTML content and files that have form elements without labels. This is a major issue.",
+        "HtmlLinkName:3": "Total number of HTML content and files that have links that are not descriptive. This is a minor issue.",
+        "HtmlList:3": "Total number of HTML content and files that don’t have properly formed lists. This is a minor issue.",
+        "HtmlObjectAlt:2": "Total number of HTML content and files that have object tags without alternative text. This is a major issue.",
+        "HtmlTdHasHeader:2": "Total number of HTML content and files that have table columns without proper a proper header. This is a major issue.",
+        "HtmlTitle:3": "Total number of HTML content and files that don’t have a title. This is a minor issue.",
+        "ImageContrast:2": "Total number of images that have poor contrast. This is a major issue.",
+        "ImageDecorative:2": "Total number of images that have not been marked as decorative. This is a major issue.",
+        "ImageDescription:2": "Total number of images that don't have an alternative description. This is a major issue.",
+        "ImageOcr:3": "Total number of images that images that contain text. This is a minor issue.",
+        "ImageSeizure:1": "Total number of images that can cause seizures. This is a severe issue.",
+        "LanguageCorrect:3": "Total number of items that have an incorrect language set. This is a minor issue.",
+        "LanguagePresence:3": "Total number of items that don’t have a language specified. This is a minor issue.",
+        "Ocred:2": "Total number of PDFs that are scanned and have been OCRed. This is a major issue.",
+        "Parsable:1": "Total number of items that are malformed or corrupted and students may not be able to open. This is a severe issue.",
+        "Scanned:1": "Total number of PDFs that are scanned but have not been OCRed. This is a severe issue.",
+        "Security:1": "Total number of items that require a password. This is a severe issue.",
+        "TableHeaders:2": "Total number of items that have tables without headers. This is a major issue.",
+        "Tagged:2": "Total number of PDFs that are not tagged. This is a major issue.",
+        "Title:3": "Total number of items without a title. This is a minor issue."
+    }
+
     def __init__(self, associated_file="") -> None:
         self.associated_file = associated_file
         self.accessibility_criteria = []
         self.analysis_content = {}
         self.priority_content = {}
+        self.priority_accessibility_errors = {}
         
         #generate the list of the elements not part of the accessibility rating
         list_of_non_fields = ["Id", "Name", "Mime type", "Score", "Deleted at", "Library reference", "Url", "Checked on"]
@@ -161,6 +205,32 @@ class CSVAnalyser():
         self.priority_content = dict_of_priority_components
         print(len(self.priority_content))
 
+    def add_description_to_priority_components(self) -> None:
+        for component_key in self.priority_content.keys():
+            severe_issues = {}
+            major_issues = {}
+            minor_issues = {}
+            for accessibility_key in CSVAnalyser.description_of_analyzed_fields.keys():
+                if int(self.priority_content[component_key][accessibility_key]) >= 1:
+                    if accessibility_key[-1] == "1":
+                        severe_issues[accessibility_key] = CSVAnalyser.description_of_analyzed_fields[accessibility_key]
+                    elif accessibility_key[-1] == "2":
+                        major_issues[accessibility_key] = CSVAnalyser.description_of_analyzed_fields[accessibility_key]
+                    elif accessibility_key[-1] == "3":
+                        minor_issues[accessibility_key] = CSVAnalyser.description_of_analyzed_fields[accessibility_key]
+            
+            self.priority_accessibility_errors[component_key] = {
+                #might also want to include link here, but we will see if that's necessary
+                "severe issues": {},
+                "major issues": {},
+                "minor issues": {}
+            }
+
+            self.priority_accessibility_errors[component_key]["severe issues"] = severe_issues
+            self.priority_accessibility_errors[component_key]["major issues"] = major_issues
+            self.priority_accessibility_errors[component_key]["minor issues"] = minor_issues
+
 csv_analyzer = CSVAnalyser('canvas_export_1.csv')
 csv_analyzer.generate_components()
 csv_analyzer.priority_components(0.24)
+csv_analyzer.add_description_to_priority_components()
