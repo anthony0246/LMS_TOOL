@@ -15,6 +15,8 @@ class CSVAnalyser():
     def __init__(self, associated_file="") -> None:
         self.associated_file = associated_file
         self.accessibility_criteria = []
+        self.analysis_content = {}
+        self.priority_content = {}
         
         #generate the list of the elements not part of the accessibility rating
         list_of_non_fields = ["Id", "Name", "Mime type", "Score", "Deleted at", "Library reference", "Url", "Checked on"]
@@ -31,7 +33,6 @@ class CSVAnalyser():
             return self.try_to_read_csv(False)
         except Exception:
             return self.try_to_read_csv(True)
-
 
         #generate a list of the individual element of the first row
         list_first_row = first_row[0].split(",")
@@ -94,7 +95,7 @@ class CSVAnalyser():
     #     return dict_to_return
     
     #analysis algorithm that will evaluate every component of the CSV file
-    def run_analysis(self) -> dict:
+    def generate_components(self) -> None:
         dict_of_course_components = {}
 
         with open("Backend/" + self.associated_file, encoding='utf-8') as file:
@@ -137,9 +138,17 @@ class CSVAnalyser():
                     else:
                         dict_of_course_components[id][self.accessibility_criteria[count2]] = row[i]
                         count2 += 1
-        if ("quiz:852058" in dict_of_course_components.keys()):
-            print(dict_of_course_components["quiz:852058"])
-        return dict_of_course_components        
+        self.analysis_content = dict_of_course_components   
+
+    def priority_components(self, high_bound_for_priority_value) -> None:
+        dict_of_priority_components = {}
+
+        for key in self.analysis_content.keys():
+            if float(self.analysis_content[key]["Score"]) <= high_bound_for_priority_value:
+                dict_of_priority_components[key] = self.analysis_content[key]
+
+        self.priority_content = dict_of_priority_components
 
 csv_analyzer = CSVAnalyser('canvas_export_1.csv')
-print(csv_analyzer.run_analysis())
+csv_analyzer.generate_components()
+csv_analyzer.priority_components(0.24)
