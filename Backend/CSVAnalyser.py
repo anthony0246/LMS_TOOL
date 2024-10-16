@@ -29,6 +29,7 @@ class CSVAnalyser():
             with open("Backend/" + self.associated_file, encoding='utf-8') as file:
                 csv_reader = csv.reader(file, delimiter="\n")
                 first_row = next(csv_reader)
+        #if an Exception occured, there needs to be a call to try_to_read_csv which handle it appropriately
         except FileNotFoundError:
             return self.try_to_read_csv(False)
         except Exception:
@@ -42,7 +43,6 @@ class CSVAnalyser():
             #if an accessibility criteria is found, set it's corresponding value
             if list_first_row[i] not in list_of_non_fields:
                 self.accessibility_criteria.append(list_first_row[i])
-        print(len(self.accessibility_criteria))
 
     #allows us to change the file associate with the CSVAnalyzer if neccessary
     def change_associated_file(self, new_file) -> None:
@@ -70,7 +70,7 @@ class CSVAnalyser():
             # Catch any other unexpected errors
             return "Error: Unexpected error occurred"
         
-    #returns a list of 2 elements for current row being analyzed that looks like: [id, url]
+    #returns a list of 2 elements for current row being analyzed that looks like: [id, url] | to delete
         #id is array[0] and url is array[1]
     # def identify_id_and_url(self, current_row) -> list:
     #     id = current_row[0]
@@ -98,15 +98,18 @@ class CSVAnalyser():
     def generate_components(self) -> None:
         dict_of_course_components = {}
 
+        #open the appropriate file (this will always work since errors have already been handled, hopefully)
         with open("Backend/" + self.associated_file, encoding='utf-8') as file:
             csv_reader = csv.reader(file, delimiter="\n")
-            next(csv_reader)
+            next(csv_reader) #skip the first line, since that isn't a component
 
+            #iterate through the rows
             for row in csv_reader:
+                #split each row at every comma and generate a list
                 row = row[0].split(",")
-                #id_and_row = self.identify_id_and_url(row)
+                #id_and_row = self.identify_id_and_url(row) | to delete
 
-                id = row[0]
+                id = row[0] #the id of the component is the first element in the row
 
                 # if id_and_row[1] == "":
                 #     dict_of_course_components[id] = self.analysis_for_row_without_url(row)
@@ -116,11 +119,12 @@ class CSVAnalyser():
                 #         "url": url,
                 #     }
 
-                dict_of_course_components[id] = {}
+                dict_of_course_components[id] = {} #init a dictionary for the components
 
-                count1 = 0
+                count1 = 0 #init two counts to decide when to switch between accessibility and non-accessibility criteria
                 count2 = 0
 
+                #account for a comma inside "Name" field of component
                 if (":" in id):
                     first_half = row[1]
                     second_half = row[2]
@@ -131,6 +135,7 @@ class CSVAnalyser():
                         row.pop(2)
                         row.insert(2, combined)
 
+                #generate the dictionary of components
                 for i in range(len(row)):
                     if i >= 0 and i < len(self.list_of_non_fields):
                         dict_of_course_components[id][self.list_of_non_fields[count1]] = row[i]
@@ -138,16 +143,23 @@ class CSVAnalyser():
                     else:
                         dict_of_course_components[id][self.accessibility_criteria[count2]] = row[i]
                         count2 += 1
+
+        #assign the generated components to the appropriate field of the object
         self.analysis_content = dict_of_course_components   
+        print(len(self.analysis_content))
 
     def priority_components(self, high_bound_for_priority_value) -> None:
         dict_of_priority_components = {}
 
+        #for every component, check if its score is < high_bound...
+            #if so add to dictionary, else don't
         for key in self.analysis_content.keys():
             if float(self.analysis_content[key]["Score"]) <= high_bound_for_priority_value:
                 dict_of_priority_components[key] = self.analysis_content[key]
 
+        #assign the priority components to the appropriate field of the object
         self.priority_content = dict_of_priority_components
+        print(len(self.priority_content))
 
 csv_analyzer = CSVAnalyser('canvas_export_1.csv')
 csv_analyzer.generate_components()
