@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href ="{{ url_for('static', filename='style.css') }}">
+    <title>Documentation</title>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Chatbot API Documentation</h1>
+        <p>Welcome to the documentation. Here, you will find all the necessary information to integrate and use our chatbot effectively.</p>
+
+        <h2>API Reference</h2>
+        <p>To send a message using the chatbot API, use the following request:</p>
+        <pre><code>POST https://api.example.com/chatbot/send
+Headers:
+  Content-Type: application/json
+Body:
+  {
+    "message": "Hello, chatbot!"
+  }
+        </code></pre>
+        <h3>Response</h3>
+        <p>The API will respond with a JSON object containing the chatbot's reply.</p>
+
+        <h2>Further Reading</h2>
+        <p>Visit our full <a href="https://example.com/docs" target="_blank">API documentation</a> for more detailed information, including error handling and advanced features.</p>
+
+        <a href="{{ url_for('home') }}">
+          <button>Back To Home</button>
+      </a>
+    </div>
+
+    <footer>
+        <p>Chatbot Interface | Powered by Creativity and Code | © 2024</p>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,141 @@
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" /> 
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter%3Awght%40400%3B500%3B700%3B900&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
+    />
+    <link rel="stylesheet" type="text/css" href ="{{ url_for('static', filename='csv_file_upload.css') }}">
+  
+    <title>Galileo Design</title>
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+  
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <body>
+    <div class="relative flex size-full min-h-screen flex-col bg-[#181112] dark group/design-root overflow-x-hidden" style='font-family: Inter, "Noto Sans", sans-serif;'>
+      <div class="layout-container flex h-full grow flex-col">
+        <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#38292a] px-10 py-3">
+          <div class="flex items-center gap-4 text-white">
+            <div class="size-4">
+              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_6_535)">
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M47.2426 24L24 47.2426L0.757355 24L24 0.757355L47.2426 24ZM12.2426 21H35.7574L24 9.24264L12.2426 21Z"
+                    fill="currentColor"
+                  ></path>
+                </g>
+                <defs>
+                  <clipPath id="clip0_6_535"><rect width="48" height="48" fill="white"></rect></clipPath>
+                </defs>
+              </svg>
+            </div>
+            <h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">AI Chatbot</h2>
+          </div>
+          <div class="flex flex-1 justify-end gap-8">
+            <div class="flex items-center gap-9">
+              <a href="{{ url_for('community') }}" class="community-button text-white">Go to Community</a>
+              <a href="{{ url_for('examples') }}" class="examples-button text-white">Go to Examples</a>
+              <a href="{{ url_for('docs') }}" class="docs-button text-white">Go to Docs</a>
+              <a href="{{ url_for('home') }}" class="home-button text-white">Back to Home</a>
+            </div>
+            <button
+              class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 bg-[#38292a] text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5 send-button"
+            >
+              <div class="text-white" data-icon="Question" data-size="20px" data-weight="regular">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+                  <path
+                    d="M140,180a12,12,0,1,1-12-12A12,12,0,0,1,140,180ZM128,72c-22.06,0-40,16.15-40,36v4a8,8,0,0,0,16,0v-4c0-11,10.77-20,24-20s24,9,24,20-10.77,20-24,20a8,8,0,0,0-8,8v8a8,8,0,0,0,16,0v-.72c18.24-3.35,32-17.9,32-35.28C168,88.15,150.06,72,128,72Zm104,56A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"
+                  ></path>
+                </svg>
+              </div>
+            </button>
+            <div
+              class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+              style='background-image: url("https://cdn.usegalileo.ai/sdxl10/d4cbbc7a-d110-49fd-b9ab-b22d470700e8.png");'
+            ></div>
+          </div>
+        </header>
+        <div class="px-40 flex flex-1 justify-center py-5">
+          <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+            <div class="flex flex-wrap justify-between gap-3 p-4">
+              <p class="text-white tracking-light text-[32px] font-bold leading-tight min-w-72">How can I help you today?</p>
+            </div>
+            <div class="flex items-end gap-3 p-4">
+              <div
+                class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-10 shrink-0"
+                style='background-image: url("https://cdn.usegalileo.ai/sdxl10/127368ca-e4b9-4ef4-905c-da2687597b34.png");'
+              ></div>
+              <div class="flex flex-1 flex-col gap-1 items-start">
+                <p class="text-[#b89da0] text-[13px] font-normal leading-normal max-w-[360px]">AI</p>
+                <p class="text-base font-normal leading-normal flex max-w-[360px] rounded-xl px-4 py-3 bg-[#38292a] text-white">
+                  I'm an AI assistant here to answer your questions. Feel free to ask me anything.
+                </p>
+              </div>
+            </div>
+            <div class="flex items-center px-4 py-3 gap-3 @container">
+              <label class="flex flex-col min-w-40 h-12 flex-1">
+                <div class="flex w-full flex-1 items-stretch rounded-xl h-full">
+                  <textarea
+                    id="message-input"
+                    class="form-input message-input flex w-full min-w-0 flex-1 overflow-auto rounded-xl text-black focus:outline-0"
+                    placeholder="Ask me anything..."
+                    rows="1"
+                  ></textarea>
+                  <div class="flex border-none bg-[#38292a] items-center justify-center pr-4 rounded-r-xl border-l-0 !pr-2">
+                    <div class="flex items-center gap-4 justify-end">
+                      <div class="flex items-center gap-1">
+                        <button class="attachment-button flex items-center justify-center p-1.5">
+                          <div class="text-[#b89da0]" data-icon="Paperclip" data-size="20px" data-weight="regular">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+                              <path d="M209.66,122.34a8,8,0,0,1,0,11.32l-82.05,82a56,56,0,0,1-79.2-79.21L147.67,35.73a40,40,0,1,1,56.61,56.55L105,193A24,24,0,1,1,71,159L154.3,74.38A8,8,0,1,1,165.7,85.6L82.39,170.31a8,8,0,1,0,11.27,11.36L192.93,81A24,24,0,1,0,159,47L59.76,147.68a40,40,0,1,0,56.53,56.62l82.06-82A8,8,0,0,1,209.66,122.34Z"></path>
+                            </svg>
+                          </div>
+                        </button>
+                        
+                      </div>
+                      <button
+                        class="min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-8 px-4 bg-[#cc192b] text-white text-sm font-medium leading-normal hidden @[480px]:block"
+                      >
+                        <span class="truncate">Send</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </label>
+            </div>
+            <h1 class = "csv_upload_text1">In order to communicate with the ChatBot, please upload the Canvas CSV File (the file must end in .csv). Click on the below button.</h1>
+            <form class="remove_margin" action="/uploads" method="POST" enctype="multipart/form-data">
+              <label for="file">Choose File</label>
+              <input class="csv_upload_text2" type="file" name="file" id="file" accept=".csv">
+              <button class="csv_upload_text2" type="submit">Upload</button>
+          </form>
+            <div id="result">
+                <!-- Results from CSV processing will be displayed here -->
+            </div>
+            <h3 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Suggested Questions:</h3>
+            <div class="flex gap-3 p-3 flex-wrap pr-4">
+              <div class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-xl bg-[#38292a] pl-4 pr-4">
+                <p class="text-white text-sm font-medium leading-normal">What are the highest priority issues?</p>
+              </div>
+              <div class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-xl bg-[#38292a] pl-4 pr-4">
+                <p class="text-white text-sm font-medium leading-normal">What is the most common issue accross course components?</p>
+              </div>
+              <div class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-xl bg-[#38292a] pl-4 pr-4">
+                <p class="text-white text-sm font-medium leading-normal">How can I improve component X?</p>
+              </div>
+              <div class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-xl bg-[#38292a] pl-4 pr-4">
+                <p class="text-white text-sm font-medium leading-normal">Can you list me the severe, major and minor course component issues?</p>
+              </div>
+            </div>            
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="script.js"></script> </head>
+  </body>
+</html>
