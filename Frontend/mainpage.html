@@ -7,6 +7,7 @@
       onload="this.rel='stylesheet'"
       href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter%3Awght%40400%3B500%3B700%3B900&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
     />
+    <link rel="stylesheet" type="text/css" href = "csv_file_upload.css">
   
     <title>Galileo Design</title>
     <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
@@ -108,19 +109,27 @@
                 </div>
               </label>
             </div>
-            <h3 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Suggested responses</h3>
+            <h1 class = "csv_upload_text1">In order to communicate with the ChatBot, please upload the Canvas CSV File (the file must end in .csv). Click on the below button.</h1>
+            <form class = "remove_margin" action="/upload" method="POST" enctype="multipart/form-data">
+                <input class = "csv_upload_text2" type="file" name="file" accept=".csv">
+                <button type="submit">Upload</button>
+            </form>
+            <div id="result">
+                <!-- Results from CSV processing will be displayed here -->
+            </div>
+            <h3 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Suggested Questions:</h3>
             <div class="flex gap-3 p-3 flex-wrap pr-4">
               <div class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-xl bg-[#38292a] pl-4 pr-4">
-                <p class="text-white text-sm font-medium leading-normal">What's the weather in London?</p>
+                <p class="text-white text-sm font-medium leading-normal">What are the highest priority issues?</p>
               </div>
               <div class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-xl bg-[#38292a] pl-4 pr-4">
-                <p class="text-white text-sm font-medium leading-normal">Tell me a joke</p>
+                <p class="text-white text-sm font-medium leading-normal">What is the most common issue accross course components?</p>
               </div>
               <div class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-xl bg-[#38292a] pl-4 pr-4">
-                <p class="text-white text-sm font-medium leading-normal">What's the capital of France?</p>
+                <p class="text-white text-sm font-medium leading-normal">How can I improve component X?</p>
               </div>
               <div class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-xl bg-[#38292a] pl-4 pr-4">
-                <p class="text-white text-sm font-medium leading-normal">What is the meaning of life?</p>
+                <p class="text-white text-sm font-medium leading-normal">Can you list me the severe, major and minor course component issues?</p>
               </div>
             </div>
           </div>

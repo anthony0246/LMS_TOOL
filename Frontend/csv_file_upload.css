@@ -1,0 +1,15 @@
+.csv_upload_text1 {
+    margin-top: 0.5%;
+    color: white;
+    margin-bottom: 1%;
+}
+
+.csv_upload_text2 {
+    margin-top: 0.5%;
+    color: white;
+    margin-bottom: 1.5%;
+}
+
+.remove_margin {
+    margin: 0
+}
