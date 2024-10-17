@@ -55,7 +55,7 @@ class CSVAnalyser():
     }
 
     def __init__(self, associated_file="") -> None:
-        self.associated_file = "Backend/" + associated_file
+        self.associated_file = associated_file
         self.accessibility_criteria = []
         self.analysis_content = {}
         self.priority_content = {}
@@ -217,7 +217,11 @@ class CSVAnalyser():
             self.priority_accessibility_errors[component_key]["major issues"] = major_issues
             self.priority_accessibility_errors[component_key]["minor issues"] = minor_issues
 
-csv_analyzer = CSVAnalyser('canvas_export_1.csv')
-csv_analyzer.generate_components()
-csv_analyzer.priority_components(0.24)
-csv_analyzer.add_description_to_priority_components()
+    def process_csv(self) -> dict:
+        self.generate_components()
+        self.priority_components(0.24)
+        self.add_description_to_priority_components()
+        return self.priority_accessibility_errors
+
+#csv_analyzer = CSVAnalyser('canvas_export_1.csv')
+#csv_analyzer.process_csv()
