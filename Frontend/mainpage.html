@@ -1,6 +1,6 @@
 <html>
   <head>
-    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" /> 
     <link
       rel="stylesheet"
       as="style"
@@ -13,7 +13,6 @@
     <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
   
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <script src="script.js"></script> </head>
   <body>
     <div class="relative flex size-full min-h-screen flex-col bg-[#181112] dark group/design-root overflow-x-hidden" style='font-family: Inter, "Noto Sans", sans-serif;'>
       <div class="layout-container flex h-full grow flex-col">
@@ -80,23 +79,23 @@
             <div class="flex items-center px-4 py-3 gap-3 @container">
               <label class="flex flex-col min-w-40 h-12 flex-1">
                 <div class="flex w-full flex-1 items-stretch rounded-xl h-full">
-                  <input
+                  <textarea
+                    id="message-input"
+                    class="form-input message-input flex w-full min-w-0 flex-1 overflow-auto rounded-xl text-black focus:outline-0"
                     placeholder="Ask me anything..."
-                    class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-white focus:outline-0 focus:ring-0 border-none bg-[#38292a] focus:border-none h-full placeholder:text-[#b89da0] px-4 rounded-r-none border-r-0 pr-2 text-base font-normal leading-normal"
-                    value=""
-                  />
+                    rows="1"
+                  ></textarea>
                   <div class="flex border-none bg-[#38292a] items-center justify-center pr-4 rounded-r-xl border-l-0 !pr-2">
                     <div class="flex items-center gap-4 justify-end">
                       <div class="flex items-center gap-1">
-                        <button class="flex items-center justify-center p-1.5">
+                        <button class="attachment-button flex items-center justify-center p-1.5">
                           <div class="text-[#b89da0]" data-icon="Paperclip" data-size="20px" data-weight="regular">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
-                              <path
-                                d="M209.66,122.34a8,8,0,0,1,0,11.32l-82.05,82a56,56,0,0,1-79.2-79.21L147.67,35.73a40,40,0,1,1,56.61,56.55L105,193A24,24,0,1,1,71,159L154.3,74.38A8,8,0,1,1,165.7,85.6L82.39,170.31a8,8,0,1,0,11.27,11.36L192.93,81A24,24,0,1,0,159,47L59.76,147.68a40,40,0,1,0,56.53,56.62l82.06-82A8,8,0,0,1,209.66,122.34Z"
-                              ></path>
+                              <path d="M209.66,122.34a8,8,0,0,1,0,11.32l-82.05,82a56,56,0,0,1-79.2-79.21L147.67,35.73a40,40,0,1,1,56.61,56.55L105,193A24,24,0,1,1,71,159L154.3,74.38A8,8,0,1,1,165.7,85.6L82.39,170.31a8,8,0,1,0,11.27,11.36L192.93,81A24,24,0,1,0,159,47L59.76,147.68a40,40,0,1,0,56.53,56.62l82.06-82A8,8,0,0,1,209.66,122.34Z"></path>
                             </svg>
                           </div>
                         </button>
+                        
                       </div>
                       <button
                         class="min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-8 px-4 bg-[#cc192b] text-white text-sm font-medium leading-normal hidden @[480px]:block"
@@ -130,10 +129,12 @@
               <div class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-xl bg-[#38292a] pl-4 pr-4">
                 <p class="text-white text-sm font-medium leading-normal">Can you list me the severe, major and minor course component issues?</p>
               </div>
+            </div>            
             </div>
           </div>
         </div>
       </div>
     </div>
+    <script src="script.js"></script> </head>
   </body>
 </html>

@@ -3,20 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Examples</title>
 </head>
 <body>
-    <body style="margin: 0; padding: 0; background-color: #211b1d; background-image: url('background.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; min-height: 100vh; color: #333; font-family: Arial, sans-serif;">
 
-    <h1>Examples of Use</h1>
-    <p>Here are some examples of how to use the chatbot:</p>
-    <h2>Example 1: Sending a Message</h2>
-    <p>To send a message, type your message in the input box and click send.</p>
-    <pre><code>const message = "Hello, how can I help you?";</code></pre>
+    <div class="container">
+        <h1>Chatbot Usage Examples</h1>
+        <p>Here are some practical examples of how to interact with the chatbot.</p>
 
-    <h2>Example 2: Using Attachments</h2>
-    <p>You can also attach files by clicking the attachment button.</p>
+        <h2>Example 1: Sending a Simple Message</h2>
+        <p>To send a message, type the following:</p>
+        <pre><code>const message = "Hi there, chatbot!";</code></pre>
 
-    <a href="index.html">Back to Home</a>
+        <h2>Example 2: Sending a Message with Attachments</h2>
+        <p>You can also send attachments using the file selector:</p>
+        <pre><code>const attachment = document.querySelector('#file-input').files[0];</code></pre>
+
+        <h2>Example 3: Handling Responses</h2>
+        <p>After sending a message, handle the response like this:</p>
+        <pre><code>fetch('https://api.example.com/chatbot/send', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({ message: "Hello" }),
+})
+.then(response => response.json())
+.then(data => console.log(data));</code></pre>
+
+        <button onclick="location.href='home.html'">Back to Home</button>
+    </div>
+
+    <footer>
+        <p>Chatbot Interface | Powered by Creativity and Code | © 2024</p>
+    </footer>
+
 </body>
 </html>

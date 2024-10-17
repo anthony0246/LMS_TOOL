@@ -52,6 +52,14 @@ messageInput.addEventListener('keypress', function(event) {
     }
 });
 
+
+const textarea = document.getElementById('message-input');
+
+textarea.addEventListener('input', function () {
+  this.style.height = 'auto'; // Reset height to recalculate based on content
+  this.style.height = this.scrollHeight + 'px'; // Dynamically adjust height
+});
+
 // Functions for button actions
 function sendMessage() {
   // Get the message text from the input field
@@ -149,11 +157,11 @@ function appendMessage(sender, message) {
     chatContainer.scrollTop = chatContainer.scrollHeight; // Auto-scroll to the latest message
 }
 
-/*
+
 function sendMessageToGemini(message) {
     // Replace with your actual API endpoint and API key
     const apiEndpoint = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent';
-    const apiKey = 'YOUR_API_KEY'; // Replace with your actual API key
+    const apiKey = "AIzaSyCSDN6PwrHm1pHwo3UOt9E7KxpYhJr4iuc"; // Replace with your actual API key
   
     const requestData = {
       contents: [{
@@ -192,4 +200,4 @@ function sendMessageToGemini(message) {
           console.error('Error:', error);
           // Display an error message to the user
         });
-      } */
+      }

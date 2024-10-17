@@ -3,18 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Docs</title>
+    <link rel="stylesheet" href="style.css">
+    <title>Documentation</title>
 </head>
-<body style="margin: 0; padding: 0; background-color: #211b1d; background-image: url('background.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; min-height: 100vh; color: #333; font-family: Arial, sans-serif;">
+<body>
 
-    <h1>Documentation</h1>
-    <p>Find everything you need to know about using the chatbot.</p>
+    <div class="container">
+        <h1>Chatbot API Documentation</h1>
+        <p>Welcome to the documentation. Here, you will find all the necessary information to integrate and use our chatbot effectively.</p>
 
-    <h2>API Reference</h2>
-    <p>Details on how to use the API to send messages.</p>
+        <h2>API Reference</h2>
+        <p>To send a message using the chatbot API, use the following request:</p>
+        <pre><code>POST https://api.example.com/chatbot/send
+Headers:
+  Content-Type: application/json
+Body:
+  {
+    "message": "Hello, chatbot!"
+  }
+        </code></pre>
+        <h3>Response</h3>
+        <p>The API will respond with a JSON object containing the chatbot's reply.</p>
 
-    <!-- Link back to home page -->
-    <button onclick="location.href='index.html'">Back to Home</button>
+        <h2>Further Reading</h2>
+        <p>Visit our full <a href="https://example.com/docs" target="_blank">API documentation</a> for more detailed information, including error handling and advanced features.</p>
+
+        <button onclick="location.href='home.html'">Back to Home</button>
+    </div>
+
+    <footer>
+        <p>Chatbot Interface | Powered by Creativity and Code | © 2024</p>
+    </footer>
 
 </body>
 </html>
