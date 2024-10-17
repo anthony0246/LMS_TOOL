@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 import os
 from werkzeug.utils import secure_filename
-from csv_processing import process_csv
 
 from CSVAnalyser import CSVAnalyser
 
