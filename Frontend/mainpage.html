@@ -9,12 +9,12 @@
     />
     <link rel="stylesheet" type="text/css" href = "csv_file_upload.css">
   
-    <title>Galileo Design</title>
+    <title>ChatBot Design</title>
     <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
   
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <body>
-    <div class="relative flex size-full min-h-screen flex-col bg-[#181112] dark group/design-root overflow-x-hidden" style='font-family: Inter, "Noto Sans", sans-serif;'>
+    <div class="relative flex size-full min-h-screen flex-col bg-[#181112] dark group/design-root overflow-x-hidden" id="chatbot">
       <div class="layout-container flex h-full grow flex-col">
         <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#38292a] px-10 py-3">
           <div class="flex items-center gap-4 text-white">
@@ -82,7 +82,7 @@
                   <textarea
                     id="message-input"
                     class="form-input message-input flex w-full min-w-0 flex-1 overflow-auto rounded-xl text-black focus:outline-0"
-                    placeholder="Ask me anything..."
+                    placeholder="Enter your prompt here"
                     rows="1"
                   ></textarea>
                   <div class="flex border-none bg-[#38292a] items-center justify-center pr-4 rounded-r-xl border-l-0 !pr-2">
@@ -101,6 +101,12 @@
                         class="min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-8 px-4 bg-[#cc192b] text-white text-sm font-medium leading-normal hidden @[480px]:block"
                       >
                         <span class="truncate">Send</span>
+                        <button
+                          class="flex items-center justify-center h-10 w-10 bg-[#38292a] text-white rounded-full hover:bg-[#4a3b3c] transition duration-200"
+                          id="light-mode-toggle"
+                          >
+                          &#x2600; <!-- Sun emoji -->
+                        </button>
                       </button>
                     </div>
                   </div>
@@ -110,7 +116,7 @@
             <h1 class = "csv_upload_text1">In order to communicate with the ChatBot, please upload the Canvas CSV File (the file must end in .csv). Click on the below button.</h1>
             <form class = "remove_margin" action="/upload" method="POST" enctype="multipart/form-data">
                 <input class = "csv_upload_text2" type="file" name="file" accept=".csv">
-                <button type="submit">Upload</button>
+                <button type="submit" style="color: white;">Upload</button>
             </form>
             <div id="result">
                 <!-- Results from CSV processing will be displayed here -->
