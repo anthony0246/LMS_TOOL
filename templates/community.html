@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href ="{{ url_for('static', filename='style.css') }}">
+    <title>Community</title>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Welcome to the Community</h1>
+        <p>Join our vibrant community of chatbot developers and enthusiasts. Share ideas, get support, and contribute to the chatbot's growth!</p>
+
+        <h2>Community Resources</h2>
+        <ul>
+            <li><a href="https://example.com/forum" target="_blank">Community Forum</a> - Discuss issues, share tips, and more.</li>
+            <li><a href="https://example.com/facebook-group" target="_blank">Facebook Group</a> - Join us on Facebook for more casual discussions.</li>
+            <li><a href="https://example.com/contribute" target="_blank">Contribute to the Project</a> - Find out how to contribute code, ideas, or documentation.</li>
+        </ul>
+
+        <a href="{{ url_for('home') }}">
+            <button>Back To Home</button>
+        </a>
+    </div>
+
+    <footer>
+        <p>Chatbot Interface | Powered by Creativity and Code | © 2024</p>
+    </footer>
+
+</body>
+</html>

@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 import os
 from werkzeug.utils import secure_filename
-from csv_processing import process_csv
 
 from CSVAnalyser import CSVAnalyser
 
@@ -12,12 +11,29 @@ app.config['ALLOWED_EXTENSIONS'] = {'csv'}
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
 
-@app.route('/../Frontend/')
+@app.route('/')
 def index():
     return render_template('mainpage.html')
 
-@app.route('/upload', methods=['POST'])
+@app.route('/community')
+def community():
+    return render_template('community.html')
+
+@app.route('/examples')
+def examples():
+    return render_template('examples.html')
+
+@app.route('/docs')
+def docs():
+    return render_template('docs.html')
+
+@app.route('/home')
+def home():
+    return render_template('home.html')
+
+@app.route('/uploads', methods=['POST'])
 def upload_file():
+    print("here")
     # Check if the file is part of the request
     if 'file' not in request.files:
         flash('No file part')
@@ -45,6 +61,9 @@ def upload_file():
 
     flash('Invalid file type, only CSVs are allowed')
     return redirect(request.url)
+
+if __name__ == "__main__":
+    app.run(debug=True)
 
 
 # csv_analyser = CSVAnalyser()
