@@ -1,6 +1,7 @@
 import csv
 import os
 import copy
+import time
 
 '''
 Class for analysing CSV exported Canvas courses
@@ -87,6 +88,8 @@ class CSVAnalyser():
             #if an accessibility criteria is found, set it's corresponding value
             if list_first_row[i] not in list_of_non_fields:
                 self.accessibility_criteria.append(list_first_row[i])
+        
+        self.row_structure = self.list_of_non_fields + self.accessibility_criteria
 
     #allows us to change the file associate with the CSVAnalyzer if neccessary
     def change_associated_file(self, new_file) -> None:
@@ -151,28 +154,21 @@ class CSVAnalyser():
 
                 dict_of_course_components[id] = {} #init a dictionary for the components
 
-                count1 = 0 #init two counts to decide when to switch between accessibility and non-accessibility criteria
-                count2 = 0
-
                 #account for a comma inside "Name" field of component
-                if (":" in id):
-                    first_half = row[1]
-                    second_half = row[2]
+                actual_title = ""
+                while len(row) + 1 > len(self.list_of_non_fields) + len(self.accessibility_criteria):
+                    actual_title += row.pop(1)
 
-                    if (first_half[0] == '"' and second_half[-1] == '"'):
-                        combined = first_half + second_half
-                        row.pop(2)
-                        row.pop(2)
-                        row.insert(2, combined)
+                if len(actual_title) != 0:
+                    if (actual_title[0] == '"'):
+                        actual_title = actual_title[1: ]
+                    elif (actual_title[-1] == '"'):
+                        actual_title = actual_title[ :-1]
+                    row.insert(1, actual_title)
 
                 #generate the dictionary of components
                 for i in range(len(row)):
-                    if i >= 0 and i < len(self.list_of_non_fields):
-                        dict_of_course_components[id][self.list_of_non_fields[count1]] = row[i]
-                        count1 += 1
-                    else:
-                        dict_of_course_components[id][self.accessibility_criteria[count2]] = row[i]
-                        count2 += 1
+                    dict_of_course_components[id][self.row_structure[i]] = row[i]
 
         #assign the generated components to the appropriate field of the object
         self.analysis_content = dict_of_course_components   
@@ -219,9 +215,9 @@ class CSVAnalyser():
 
     def process_csv(self) -> dict:
         self.generate_components()
-        self.priority_components(0.24)
+        self.priority_components(1)
         self.add_description_to_priority_components()
         return self.priority_accessibility_errors
 
-#csv_analyzer = CSVAnalyser('canvas_export_1.csv')
-#csv_analyzer.process_csv()
+# csv_analyzer = CSVAnalyser()
+# csv_analyzer.process_csv()

@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
-import os
+import os, time
 from werkzeug.utils import secure_filename
 
 from CSVAnalyser import CSVAnalyser
@@ -33,6 +33,7 @@ def home():
 
 @app.route('/uploads', methods=['POST'])
 def upload_file():
+    start_time = time.time()
     print("here")
     # Check if the file is part of the request
     if 'file' not in request.files:
@@ -57,6 +58,8 @@ def upload_file():
         result = csv_analyser.process_csv()
 
         # Return the result as JSON or directly into the webpage
+        run_time = time.time() - start_time
+        print(run_time)
         return jsonify({'result': result})
 
     flash('Invalid file type, only CSVs are allowed')
