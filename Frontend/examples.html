@@ -14,23 +14,23 @@
 
         <h2>Example 1: Sending a Simple Message</h2>
         <p>To send a message, type the following:</p>
-        <pre><code>const message = "Hi there, chatbot!";</code></pre>
+        <p> "Hi there, chatbot!";</p>
 
         <h2>Example 2: Sending a Message with Attachments</h2>
-        <p>You can also send attachments using the file selector:</p>
-        <pre><code>const attachment = document.querySelector('#file-input').files[0];</code></pre>
+        <p>You can also send attachments using the file selector</p>
+        
 
-        <h2>Example 3: Handling Responses</h2>
-        <p>After sending a message, handle the response like this:</p>
-        <pre><code>fetch('https://api.example.com/chatbot/send', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({ message: "Hello" }),
-})
-.then(response => response.json())
-.then(data => console.log(data));</code></pre>
+        <h2>Example 3: Real-Time Interaction and Response Handling</h2>
+        <p>Once a user sends a message like, "What are the latest products available?", 
+            the chatbot can process the request and instantly respond with personalized recommendations or a list of products. 
+            This interaction improves the user experience by offering immediate, relevant information.</p>
+
+        <h2>Use Case 1: Personalized Recommendations</h2>
+        <p>Chatbots can offer personalized product or service recommendations based on user preferences. 
+            For instance, after a user asks, "Can you suggest a laptop under $1000?", 
+            the chatbot would respond with tailored options, like a list of laptops meeting the criteria, complete with links to purchase them.
+            This makes shopping or product searching more convenient for the user.</p>
+
 
         <button onclick="location.href='home.html'">Back to Home</button>
     </div>
