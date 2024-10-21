@@ -7,14 +7,14 @@
       onload="this.rel='stylesheet'"
       href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter%3Awght%40400%3B500%3B700%3B900&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
     />
-    <link rel="stylesheet" type="text/css" href = "csv_file_upload.css">
+    <link rel="stylesheet" type="text/css" href ="{{ url_for('static', filename='csv_file_upload.css') }}">
   
-    <title>ChatBot Design</title>
+    <title>Galileo Design</title>
     <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
   
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <body>
-    <div class="relative flex size-full min-h-screen flex-col bg-[#181112] dark group/design-root overflow-x-hidden" id="chatbot">
+    <div class="relative flex size-full min-h-screen flex-col bg-[#181112] dark group/design-root overflow-x-hidden" style='font-family: Inter, "Noto Sans", sans-serif;'>
       <div class="layout-container flex h-full grow flex-col">
         <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#38292a] px-10 py-3">
           <div class="flex items-center gap-4 text-white">
@@ -37,10 +37,10 @@
           </div>
           <div class="flex flex-1 justify-end gap-8">
             <div class="flex items-center gap-9">
-              <a href="community.html" class="community-button text-white">Go to Community</a>
-              <a href="examples.html" class="examples-button text-white">Go to Examples</a>
-              <a href="docs.html" class="docs-button text-white">Go to Docs</a>
-              <a href="home.html" class="home-button text-white">Back to Home</a>
+              <a href="{{ url_for('community') }}" class="community-button text-white">Go to Community</a>
+              <a href="{{ url_for('examples') }}" class="examples-button text-white">Go to Examples</a>
+              <a href="{{ url_for('docs') }}" class="docs-button text-white">Go to Docs</a>
+              <a href="{{ url_for('home') }}" class="home-button text-white">Back to Home</a>
             </div>
             <button
               class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 bg-[#38292a] text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5 send-button"
@@ -78,11 +78,11 @@
             </div>
             <div class="flex items-center px-4 py-3 gap-3 @container">
               <label class="flex flex-col min-w-40 h-12 flex-1">
-                <div class=" chat-list flex w-full flex-1 items-stretch rounded-xl h-full">
+                <div class="flex w-full flex-1 items-stretch rounded-xl h-full">
                   <textarea
                     id="message-input"
                     class="form-input message-input flex w-full min-w-0 flex-1 overflow-auto rounded-xl text-black focus:outline-0"
-                    placeholder="Enter your prompt here"
+                    placeholder="Ask me anything..."
                     rows="1"
                   ></textarea>
                   <div class="flex border-none bg-[#38292a] items-center justify-center pr-4 rounded-r-xl border-l-0 !pr-2">
@@ -101,15 +101,6 @@
                         class="min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-8 px-4 bg-[#cc192b] text-white text-sm font-medium leading-normal hidden @[480px]:block"
                       >
                         <span class="truncate">Send</span>
-                        <button
-                          class="flex items-center justify-center h-10 w-10 bg-[#38292a] text-white rounded-full hover:bg-[#4a3b3c] transition duration-200"
-                          id="light-mode-toggle"
-                          >
-                          &#x2600; <!-- Sun emoji -->
-                        </button>
-                        <button
-                          id="delete-chat-button" class="bin"></span>
-                          &#x1F5D1;
                       </button>
                     </div>
                   </div>
@@ -117,10 +108,11 @@
               </label>
             </div>
             <h1 class = "csv_upload_text1">In order to communicate with the ChatBot, please upload the Canvas CSV File (the file must end in .csv). Click on the below button.</h1>
-            <form class = "remove_margin" action="/upload" method="POST" enctype="multipart/form-data">
-                <input class = "csv_upload_text2" type="file" name="file" accept=".csv">
-                <button type="submit" style="color: white;">Upload</button>
-            </form>
+            <form class="remove_margin" action="/uploads" method="POST" enctype="multipart/form-data">
+              <label for="file">Choose File</label>
+              <input class="csv_upload_text2" type="file" name="file" id="file" accept=".csv">
+              <button class="csv_upload_text2" type="submit">Upload</button>
+          </form>
             <div id="result">
                 <!-- Results from CSV processing will be displayed here -->
             </div>

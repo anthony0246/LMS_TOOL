@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" type="text/css" href ="{{ url_for('static', filename='style.css') }}">
     <title>Documentation</title>
 </head>
 <body>
@@ -28,7 +28,9 @@ Body:
         <h2>Further Reading</h2>
         <p>Visit our full <a href="https://example.com/docs" target="_blank">API documentation</a> for more detailed information, including error handling and advanced features.</p>
 
-        <button onclick="location.href='home.html'">Back to Home</button>
+        <a href="{{ url_for('home') }}">
+          <button>Back To Home</button>
+      </a>
     </div>
 
     <footer>

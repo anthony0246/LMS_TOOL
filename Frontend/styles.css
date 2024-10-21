@@ -1,0 +1,154 @@
+/* General Styles */
+body {
+    font-family: 'Inter', sans-serif; /* Using the Inter font as specified in the HTML */
+    margin: 0;
+    padding: 0;
+    background-color: #181112; /* Consistent with the provided background */
+    color: #e0e0e0; /* Softer text color for better readability */
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #ffffff; /* Keep headings white for visibility */
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Button Styles */
+button {
+    background-color: #cc192b; /* Primary button color */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background-color: #b3121f; /* Darker shade on hover */
+    transform: scale(1.05); /* Slightly enlarges button on hover */
+}
+
+button:active {
+    background-color: #9f0d1b; /* Even darker shade on click */
+}
+
+/* Form Styles */
+.form-input {
+    background-color: #2d2d2d; /* Dark background for input */
+    color: white; /* White text for visibility */
+    border: none;
+    border-radius: 5px; /* Rounded corners for input fields */
+    padding: 10px; /* Add padding for better usability */
+    transition: background-color 0.3s ease;
+}
+
+.form-input:focus {
+    outline: none; /* Remove default focus outline */
+    background-color: #3b3b3b; /* Lighter background on focus */
+}
+
+/* Chat List Styles */
+.chat-list {
+    padding: 1rem; /* Use padding instead of margin for spacing */
+    max-height: 70vh; /* Keep chat list within viewport */
+    overflow-y: auto; /* Enable scrolling */
+    scrollbar-color: #999 transparent; /* Custom scrollbar */
+}
+
+.chat-list .message {
+    margin: 1rem 0; /* Margin between messages */
+}
+
+.chat-list .message.incoming {
+    text-align: left; /* Align incoming messages to the left */
+}
+
+.chat-list .message.outgoing {
+    text-align: right; /* Align outgoing messages to the right */
+}
+
+/* Avatar Styles */
+.chat-list .message .avatar {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%; /* Circular avatar */
+}
+
+/* Layout and Grid */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: -10px;
+}
+
+.column {
+    flex: 1;
+    padding: 10px;
+}
+
+.column-half {
+    flex: 0 0 50%; /* Adjusted for half columns */
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+    width: 8px; /* Width of the scrollbar */
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #cc192b; /* Color of the scrollbar thumb */
+    border-radius: 10px; /* Rounded corners */
+}
+
+::-webkit-scrollbar-track {
+    background-color: #2d2d2d; /* Track color */
+}
+
+/* Header Styles */
+header {
+    background-color: #2d2d2d; /* Dark background for header */
+    padding: 10px 20px; /* Padding for header */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+}
+
+/* Suggested Questions Styles */
+.suggested-questions {
+    padding: 1rem; /* Add padding */
+}
+
+.suggested-questions .flex {
+    margin: 0.5rem; /* Space between suggestion boxes */
+    background-color: #38292a; /* Background color */
+    border-radius: 10px; /* Rounded corners */
+}
+
+/* CSV Upload Styles */
+.csv_upload_text1, .csv_upload_text2 {
+    color: #ffffff; /* Text color for CSV instructions */
+}
+
+.csv_upload_text2 {
+    margin: 10px 0; /* Space below the upload input */
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .header, .footer {
+        text-align: center; /* Center content on smaller screens */
+    }
+    
+    .flex {
+        flex-direction: column; /* Stack elements vertically */
+    }
+    
+    .chat-list {
+        max-height: 50vh; /* Reduce height for small screens */
+    }
+}

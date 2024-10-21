@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" type="text/css" href ="{{ url_for('static', filename='style.css') }}">
     <title>Community</title>
 </head>
 <body>
@@ -19,7 +19,9 @@
             <li><a href="https://example.com/contribute" target="_blank">Contribute to the Project</a> - Find out how to contribute code, ideas, or documentation.</li>
         </ul>
 
-        <button onclick="location.href='home.html'">Back to Home</button>
+        <a href="{{ url_for('home') }}">
+            <button>Back To Home</button>
+        </a>
     </div>
 
     <footer>

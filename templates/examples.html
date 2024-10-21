@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" type="text/css" href ="{{ url_for('static', filename='style.css') }}">
     <title>Examples</title>
 </head>
 <body>
@@ -32,7 +32,9 @@
 .then(response => response.json())
 .then(data => console.log(data));</code></pre>
 
-        <button onclick="location.href='home.html'">Back to Home</button>
+        <a href="{{ url_for('home') }}">
+            <button>Back to Home</button>
+        </a>
     </div>
 
     <footer>

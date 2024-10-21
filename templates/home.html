@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" type="text/css" href ="{{ url_for('static', filename='style.css') }}">
     <title>Home</title>
 </head>
 <body>
@@ -12,11 +12,19 @@
         <h1>Welcome to the Chatbot Interface</h1>
         <p>Explore our chatbot, access documentation, view examples, and join the community. We've built a user-friendly interface to help you get started quickly and efficiently!</p>
 
-        <button onclick="location.href='community.html'">Join the Community</button>
-        <button onclick="location.href='examples.html'">View Examples</button>
-        <button onclick="location.href='docs.html'">Read Documentation</button>
+        <a href="{{ url_for('community') }}">
+            <button>Join the Community</button>
+        </a>
+        <a href="{{ url_for('examples') }}">
+            <button>View Examples</button>
+        </a>
+        <a href="{{ url_for('docs') }}">
+            <button>Read Documentation</button>
+        </a>
     </div>
-    <button class="chatbot-button" onclick="location.href='mainpage.html'">Go to the ChatBot</button>
+    <a href="{{ url_for('index') }}">
+        <button>Go to the ChatBot</button>
+    </a>
 
     <footer>
         <p>Chatbot Interface | Powered by Creativity and Code | © 2024</p>

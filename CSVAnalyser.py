@@ -1,5 +1,4 @@
 import csv
-import pandas as pd
 import os
 import copy
 
@@ -68,16 +67,17 @@ class CSVAnalyser():
 
         self.list_of_non_fields = list_of_non_fields
 
-        #open the csv file
+        #try to open the csv file
         try:
-            with open("Backend/" + self.associated_file, encoding='utf-8') as file:
+            self.csv_is_empty()
+            with open(self.associated_file, encoding='utf-8') as file:
                 csv_reader = csv.reader(file, delimiter="\n")
                 first_row = next(csv_reader)
         #if an Exception occured, there needs to be a call to try_to_read_csv which handle it appropriately
         except FileNotFoundError:
-            return self.try_to_read_csv(False)
+            return "Error 404: CSV file could not be found"
         except Exception:
-            return self.try_to_read_csv(True)
+            return "Error 403: CSV file is empty."
 
         #generate a list of the individual element of the first row
         list_first_row = first_row[0].split(",")
@@ -93,26 +93,12 @@ class CSVAnalyser():
         self.associated_file = new_file
 
     #error handling for unexpected behaviour when opening the CSV file provided
-    def try_to_read_csv(self, constructor_worked) -> Exception:
-        if (not constructor_worked):
-            return Exception("Error: could not find csv file.")
-
-        try:
-           # Attempt to read the CSV file
-            file_reader = pd.read_csv(self.associated_file)
-            return file_reader
-    
-        except pd.errors.EmptyDataError:
-            # Handle the case where the file is empty
-            return "Error: CSV file is empty"
+    def csv_is_empty(self) -> Exception:
+        with open(self.associated_file, 'r') as file_obj:
+            first_char = file_obj.read(1)
         
-        except pd.errors.ParserError:
-            # Handle parsing errors if the file is not in CSV format
-            return "Error: File given is not a CSV file"
-        
-        except Exception as e:
-            # Catch any other unexpected errors
-            return "Error: Unexpected error occurred"
+        if not first_char:
+            return Exception("Error: csv file is empty")
         
     #returns a list of 2 elements for current row being analyzed that looks like: [id, url] | to delete
         #id is array[0] and url is array[1]
@@ -143,7 +129,7 @@ class CSVAnalyser():
         dict_of_course_components = {}
 
         #open the appropriate file (this will always work since errors have already been handled, hopefully)
-        with open("Backend/" + self.associated_file, encoding='utf-8') as file:
+        with open(self.associated_file, encoding='utf-8') as file:
             csv_reader = csv.reader(file, delimiter="\n")
             next(csv_reader) #skip the first line, since that isn't a component
 
@@ -221,6 +207,7 @@ class CSVAnalyser():
             
             self.priority_accessibility_errors[component_key] = {
                 #might also want to include link here, but we will see if that's necessary
+                "Url of Component": self.priority_content[component_key]["Url"],
                 "severe issues": {},
                 "major issues": {},
                 "minor issues": {}
@@ -230,7 +217,11 @@ class CSVAnalyser():
             self.priority_accessibility_errors[component_key]["major issues"] = major_issues
             self.priority_accessibility_errors[component_key]["minor issues"] = minor_issues
 
-csv_analyzer = CSVAnalyser('canvas_export_1.csv')
-csv_analyzer.generate_components()
-csv_analyzer.priority_components(0.24)
-csv_analyzer.add_description_to_priority_components()
+    def process_csv(self) -> dict:
+        self.generate_components()
+        self.priority_components(0.24)
+        self.add_description_to_priority_components()
+        return self.priority_accessibility_errors
+
+#csv_analyzer = CSVAnalyser('canvas_export_1.csv')
+#csv_analyzer.process_csv()
