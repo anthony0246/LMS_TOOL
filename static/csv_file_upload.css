@@ -13,3 +13,25 @@
 .remove_margin {
     margin: 0
 }
+
+.white_border_csv {
+    border: white solid 2px;
+    padding: 0.5% 1%;
+    border-radius: 5%;
+}
+
+.white_border_csv:hover {
+    cursor: pointer;
+    border: none 2px;
+    padding: 1% 2%;
+    border-radius: 2%;
+    background-color: rgb(204 25 43 / var(--tw-bg-opacity));
+}
+
+
+.form_flexbox {
+}
+
+input[type="file"] {
+    margin-left: 2%;
+}

@@ -108,11 +108,13 @@
               </label>
             </div>
             <h1 class = "csv_upload_text1">In order to communicate with the ChatBot, please upload the Canvas CSV File (the file must end in .csv). Click on the below button.</h1>
-            <form class="remove_margin" action="/uploads" method="POST" enctype="multipart/form-data">
-              <label for="file">Choose File</label>
-              <input class="csv_upload_text2" type="file" name="file" id="file" accept=".csv">
-              <button class="csv_upload_text2" type="submit">Upload</button>
-          </form>
+            <div id="result" class="csv_upload_text1"></div>  
+            <div class = "form_flexbox">
+                <form id="uploadForm" class="remove_margin" action="/uploads" method="POST" enctype="multipart/form-data">
+                  <input class="csv_upload_text2" type="file" name="file" id="file" accept=".csv">
+                  <button class="csv_upload_text2 white_border_csv"id="uploadButton" type="submit" style="display: none;">Upload CSV file</button>
+                </form>
+            </div>    
             <div id="result">
                 <!-- Results from CSV processing will be displayed here -->
             </div>
@@ -136,6 +138,41 @@
         </div>
       </div>
     </div>
-    <script src="script.js"></script> </head>
+    <script>
+      document.getElementById('uploadForm').addEventListener('submit', function(event) {
+      event.preventDefault();  // Prevent the form from submitting the traditional way
+
+      let formData = new FormData(this);  // Create a FormData object with the file input
+
+      // Make the API call using fetch
+      fetch('/uploads', {
+          method: 'POST',
+          body: formData,
+      })
+      .then(response => response.json())  // Parse the JSON response
+      .then(data => {
+          let resultDiv = document.getElementById('result');  // Find the result div
+          if (data.error) {
+              resultDiv.innerHTML = `<p class="error">${data.error}</p>`;  // Show error message
+          } else {
+              resultDiv.innerHTML = `<pre>${JSON.stringify(data.result, null, 2)}</pre>`;  // Display result as formatted JSON
+          }
+      })
+      .catch(error => {
+          console.error('Error:', error);
+      });
+  });
+
+    document.getElementById('file').addEventListener('change', function(event) {
+          let uploadButton = document.getElementById('uploadButton');
+          
+          if (this.files.length > 0) {
+              uploadButton.style.display = 'inline-block';  // Show the button
+          } else {
+              uploadButton.style.display = 'none';  // Hide the button if no file is selected
+          }
+      });
+    </script> 
+  </head>
   </body>
 </html>
