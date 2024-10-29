@@ -290,8 +290,9 @@ body.hide-header .header {
 
 .typing-form #send-message-button {
   position: absolute;
-  right: 1rem;
+  right: 0;
   top: 50%;
+  margin: 0;
   transform: translateY(-50%) scale(0); /* Initially hidden */
   font-size: 1.4rem;
   background: transparent;

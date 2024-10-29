@@ -52,16 +52,18 @@
       <div class="input-wrapper">
         <!-- Text Input for Chat -->
         <input type="text" placeholder="Enter a prompt here" class="typing-input" required />
+
+        <button id="send-message-button" class="icon material-symbols-rounded">send</button>
+      </div>
+      <div class="action-buttons">
         <!-- Attachment Button (CSV Only) -->
         <label for="file-upload" id="attachment-button" class="icon material-symbols-rounded" title="Upload CSV File">
           attach_file
           <input type="file" id="file-upload" accept=".csv" hidden />
         </label>
-        <button id="send-message-button" class="icon material-symbols-rounded">send</button>
-      </div>
-      <div class="action-buttons">
         <span id="theme-toggle-button" class="icon material-symbols-rounded">light_mode</span>
         <span id="delete-chat-button" class="icon material-symbols-rounded">delete</span>
+        
       </div>
     </form>
     <p class="disclaimer-text">
@@ -73,7 +75,7 @@
   <div id="result"></div>
 
   <script src="script.js">
-    
+
     document.getElementById('file-upload').addEventListener('change', function(event) {
       let fileInput = this;
       let resultDiv = document.getElementById('result');
