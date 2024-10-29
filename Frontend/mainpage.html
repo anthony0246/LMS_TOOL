@@ -47,20 +47,15 @@
   <div class="chat-list"></div>
 
   <!-- Typing Area -->
-    <div class="typing-area">
+  <div class="typing-area">
     <form action="#" class="typing-form">
       <div class="input-wrapper">
-        <!-- CSV Upload Button -->
-        <label for="csv-upload" class="csv-upload-button">
-          <input type="file" id="csv-upload" accept=".csv" hidden />
-          <span class="icon material-symbols-rounded">upload</span> Upload CSV
-        </label>
         <!-- Text Input for Chat -->
         <input type="text" placeholder="Enter a prompt here" class="typing-input" required />
-        <!-- Attachment Button -->
-        <label for="file-upload" id="attachment-button" class="icon material-symbols-rounded" title="Upload Document">
+        <!-- Attachment Button (CSV Only) -->
+        <label for="file-upload" id="attachment-button" class="icon material-symbols-rounded" title="Upload CSV File">
           attach_file
-          <input type="file" id="file-upload" accept=".pdf,.doc,.docx,.ppt,.pptx,.txt" hidden />
+          <input type="file" id="file-upload" accept=".csv" hidden />
         </label>
         <button id="send-message-button" class="icon material-symbols-rounded">send</button>
       </div>
@@ -74,6 +69,23 @@
     </p>
   </div>
 
-  <script src="script.js"></script>
+  <!-- Result div to display selected CSV file name or content -->
+  <div id="result"></div>
+
+  <script src="script.js">
+    
+    document.getElementById('file-upload').addEventListener('change', function(event) {
+      let fileInput = this;
+      let resultDiv = document.getElementById('result');
+      
+      // Display the selected file name or hide if no file selected
+      if (fileInput.files.length > 0) {
+        let fileName = fileInput.files[0].name;
+        resultDiv.innerHTML = `<p>Selected file: ${fileName}</p>`;
+      } else {
+        resultDiv.innerHTML = '';  // Clear display if no file selected
+      }
+    });
+  </script>
 </body>
 </html>

@@ -144,6 +144,11 @@ const handleOutgoingChat = () => {
 const handleFileUpload = (event) => {
   const file = event.target.files[0];
   if (!file) return;
+  //else if (/*check if CSV file*/) {
+    //pass on to csvanalyzer
+    //display that the CSV file has been received
+    //return early
+  //}
 
   const fileName = file.name;
 

@@ -246,17 +246,17 @@ body.hide-header .header {
   height: 56px;
   display: flex;
   position: relative;
+  align-items: center;
 }
 
 .typing-form .typing-input {
   height: 100%;
-  width: 100%;
+  width: calc(100% - 120px); /* Adjusting width to account for buttons */
   border: none;
   outline: none;
-  resize: none;
   font-size: 1rem;
   color: var(--text-color);
-  padding: 1.1rem 4rem 1.1rem 1.5rem;
+  padding: 1.1rem 1.5rem;
   border-radius: 100px;
   background: var(--secondary-color);
 }
@@ -265,8 +265,8 @@ body.hide-header .header {
   background: var(--secondary-hover-color);
 }
 
-.typing-form .typing-input::placeholder {
-  color: var(--placeholder-color);
+.typing-form .typing-input:focus {
+  background: var(--secondary-hover-color);
 }
 
 .typing-area .icon {
@@ -290,16 +290,19 @@ body.hide-header .header {
 
 .typing-form #send-message-button {
   position: absolute;
-  right: 0;
-  outline: none;
-  border: none;
-  transform: scale(0);
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%) scale(0); /* Initially hidden */
+  font-size: 1.4rem;
   background: transparent;
+  border: none;
+  color: var(--text-color);
+  cursor: pointer;
   transition: transform 0.2s ease;
 }
 
 .typing-form .typing-input:valid ~ #send-message-button {
-  transform: scale(1);
+  transform: translateY(-50%) scale(1);
 }
 
 .typing-area .disclaimer-text {
