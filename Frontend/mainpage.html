@@ -57,9 +57,9 @@
       </div>
       <div class="action-buttons">
         <!-- Attachment Button (CSV Only) -->
-        <label for="file-upload" id="attachment-button" class="icon material-symbols-rounded" title="Upload CSV File">
+        <label for="csvFileInput" id="attachment-button" class="icon material-symbols-rounded" title="Upload CSV File">
           attach_file
-          <input type="file" id="file-upload" accept=".csv" hidden />
+          <input type="file" id="csvFileInput" accept=".csv" hidden />
         </label>
         <span id="theme-toggle-button" class="icon material-symbols-rounded">light_mode</span>
         <span id="delete-chat-button" class="icon material-symbols-rounded">delete</span>
@@ -75,19 +75,19 @@
   <div id="result"></div>
 
   <script src="script.js">
-
-    document.getElementById('file-upload').addEventListener('change', function(event) {
-      let fileInput = this;
-      let resultDiv = document.getElementById('result');
+    // document.getElementById('csvFileInput').addEventListener('change', function(event) {
+    //   let fileInput = this;
+    //   let resultDiv = document.getElementById('result');
       
-      // Display the selected file name or hide if no file selected
-      if (fileInput.files.length > 0) {
-        let fileName = fileInput.files[0].name;
-        resultDiv.innerHTML = `<p>Selected file: ${fileName}</p>`;
-      } else {
-        resultDiv.innerHTML = '';  // Clear display if no file selected
-      }
-    });
+    //   // Display the selected file name or hide if no file selected
+    //   if (fileInput.files.length > 0) {
+    //     let fileName = fileInput.files[0].name;
+    //     resultDiv.innerHTML = <p>Selected file: ${fileName}</p>;
+    //   } else {
+    //     resultDiv.innerHTML = '';  // Clear display if no file selected
+    //   }
+    // });
   </script>
+  <script src="csvAnalyzer.js"></script>
 </body>
 </html>

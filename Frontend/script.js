@@ -126,7 +126,7 @@ const handleOutgoingChat = () => {
   isResponseGenerating = true;
 
   const html = `<div class="message-content">
-                  <img class="avatar" src="images/user.jpg" alt="User avatar">
+                  <img class="avatar" alt="User avatar">
                   <p class="text"></p>
                 </div>`;
 
@@ -153,7 +153,7 @@ const handleFileUpload = (event) => {
   const fileName = file.name;
 
   const html = `<div class="message-content">
-                  <img class="avatar" src="images/user.jpg" alt="User avatar">
+                  <img class="avatar" alt="User avatar">
                   <p class="text">Uploaded Document: ${fileName}</p>
                 </div>`;
   
@@ -192,7 +192,7 @@ typingForm.addEventListener("submit", (e) => {
 });
 
 // Attach file upload event listener
-const fileUploadInput = document.getElementById('file-upload');
+const fileUploadInput = document.getElementById('csvFileInput');
 fileUploadInput.addEventListener('change', handleFileUpload);
 
 // Load initial data from local storage
