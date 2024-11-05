@@ -7,6 +7,7 @@ const deleteChatButton = document.querySelector("#delete-chat-button");
 // State variables
 let userMessage = null;
 let isResponseGenerating = false;
+const fileUploadInput = document.getElementById('csvFileInput');
 
 // API configuration
 const API_KEY = "AIzaSyCSDN6PwrHm1pHwo3UOt9E7KxpYhJr4iuc"; // Your API key here
@@ -141,26 +142,70 @@ const handleOutgoingChat = () => {
 }
 
 // Handle file uploads
-const handleFileUpload = (event) => {
+// const handleFileUpload = (event) => {
+//   const file = event.target.files[0];
+//   if (!file) return;
+//   //else if (/*check if CSV file*/) {
+//     //pass on to csvanalyzer
+//     //display that the CSV file has been received
+//     //return early
+//   //}
+
+//   const fileName = file.name;
+
+//   const html = `<div class="message-content">
+//                   <img class="avatar" alt="User avatar">
+//                   <p class="text">Uploaded Document: ${fileName}</p>
+//                 </div>`;
+  
+//   const outgoingMessageDiv = createMessageElement(html, "outgoing");
+//   chatContainer.appendChild(outgoingMessageDiv);
+//   chatContainer.scrollTo(0, chatContainer.scrollHeight); // Scroll to the bottom
+// }
+
+// Modified handleFileUpload function in script.js
+
+const handleFileUpload = async (event) => {
   const file = event.target.files[0];
   if (!file) return;
-  //else if (/*check if CSV file*/) {
-    //pass on to csvanalyzer
-    //display that the CSV file has been received
-    //return early
-  //}
 
-  const fileName = file.name;
+  const csvAnalyzer = new CSVAnalyzer();
+  let analysisResult;
 
-  const html = `<div class="message-content">
-                  <img class="avatar" alt="User avatar">
-                  <p class="text">Uploaded Document: ${fileName}</p>
-                </div>`;
-  
-  const outgoingMessageDiv = createMessageElement(html, "outgoing");
-  chatContainer.appendChild(outgoingMessageDiv);
-  chatContainer.scrollTo(0, chatContainer.scrollHeight); // Scroll to the bottom
-}
+  try {
+    // Process CSV file and retrieve analysis result
+    analysisResult = await csvAnalyzer.processCSV(file);
+    console.log("CSV Analysis Result:", analysisResult); // Debug output
+
+    // Format analysis result into a string to send as the first message
+    userMessage = `CSV Analysis Result:\n${JSON.stringify(analysisResult, null, 2)}`;
+
+    // Display confirmation message about uploaded file
+    const fileName = file.name;
+    const html = `<div class="message-content">
+                    <img class="avatar" alt="User avatar">
+                    <p class="text">Uploaded Document: ${fileName}</p>
+                  </div>`;
+    const outgoingMessageDiv = createMessageElement(html, "outgoing");
+    chatContainer.appendChild(outgoingMessageDiv);
+    chatContainer.scrollTo(0, chatContainer.scrollHeight);
+
+    // Send the analysis result to Gemini API
+    handleOutgoingChat();  // This will automatically pick up `userMessage` and send it
+  } catch (error) {
+    console.error("Error processing CSV file:", error);
+    const errorHtml = `<div class="message-content">
+                         <p class="text error">Error processing CSV: ${error.message}</p>
+                       </div>`;
+    const errorMessageDiv = createMessageElement(errorHtml, "outgoing");
+    chatContainer.appendChild(errorMessageDiv);
+    chatContainer.scrollTo(0, chatContainer.scrollHeight);
+  }
+};
+
+// Ensure this function is added to the file upload event listener
+//fileUploadInput.addEventListener('change', handleFileUpload);
+
 
 // Toggle between light and dark themes
 toggleThemeButton.addEventListener("click", () => {
@@ -192,7 +237,6 @@ typingForm.addEventListener("submit", (e) => {
 });
 
 // Attach file upload event listener
-const fileUploadInput = document.getElementById('csvFileInput');
 fileUploadInput.addEventListener('change', handleFileUpload);
 
 // Load initial data from local storage
