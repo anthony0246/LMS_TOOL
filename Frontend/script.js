@@ -241,3 +241,4 @@ fileUploadInput.addEventListener('change', handleFileUpload);
 
 // Load initial data from local storage
 loadDataFromLocalstorage();
+

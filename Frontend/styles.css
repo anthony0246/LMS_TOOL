@@ -251,7 +251,7 @@ body.hide-header .header {
 
 .typing-form .typing-input {
   height: 100%;
-  width: calc(100% - 120px); /* Adjusting width to account for buttons */
+  width: calc(100% - 120px); 
   border: none;
   outline: none;
   font-size: 1rem;
