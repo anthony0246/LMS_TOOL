@@ -93,7 +93,7 @@ const generateAPIResponse = async (incomingMessageDiv) => {
 // Show a loading animation while waiting for the API response
 const showLoadingAnimation = () => {
   const html = `<div class="message-content">
-                  <img class="avatar" src="images/gemini.svg" alt="Gemini avatar">
+                  <img class="avatar" src="images/gemini.svg" alt="GPT avatar">
                   <p class="text"></p>
                   <div class="loading-indicator">
                     <div class="loading-bar"></div>
@@ -109,6 +109,18 @@ const showLoadingAnimation = () => {
   chatContainer.scrollTo(0, chatContainer.scrollHeight); // Scroll to the bottom
   generateAPIResponse(incomingMessageDiv);
 }
+document.querySelector('.typing-input').addEventListener('input', function () {
+  this.style.height = 'auto'; // Reset height
+  this.style.height = `${Math.min(this.scrollHeight, 5 * parseFloat(getComputedStyle(this).lineHeight))}px`; // Set new height, with max height limit
+});
+
+document.querySelector('.typing-input').addEventListener('keydown', function (event) {
+  if (event.key === "Enter" && !event.shiftKey) {  // Ensure Shift key is not held for multiline input
+    event.preventDefault(); // Prevent default action (like form submission)
+    handleOutgoingChat();   // Trigger the chat sending function
+  }
+});
+
 
 // Copy message text to the clipboard
 const copyMessage = (copyButton) => {

@@ -50,25 +50,23 @@
   <div class="typing-area">
     <form action="#" class="typing-form">
       <div class="input-wrapper">
-        <!-- Text Input for Chat -->
         <textarea placeholder="Enter a prompt here" class="typing-input" required></textarea>
         <button id="send-message-button" class="icon material-symbols-rounded">send</button>
       </div>
       <div class="action-buttons">
-        <!-- Attachment Button (CSV Only) -->
         <label for="csvFileInput" id="attachment-button" class="icon material-symbols-rounded" title="Upload CSV File">
           attach_file
           <input type="file" id="csvFileInput" accept=".csv" hidden />
         </label>
         <span id="theme-toggle-button" class="icon material-symbols-rounded">light_mode</span>
         <span id="delete-chat-button" class="icon material-symbols-rounded">delete</span>
-        
       </div>
     </form>
     <p class="disclaimer-text">
       This Chatbot may display inaccurate info, including about people, so double-check its responses.
     </p>
   </div>
+  
 
   <!-- Result div to display selected CSV file name or content -->
   <div id="result"></div>
