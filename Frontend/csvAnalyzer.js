@@ -67,15 +67,42 @@ class CSVAnalyzer {
 
         this.extractHeaders(firstRow);
         this.parseRows(rows);
-        this.findPriorityComponents(1);
+        this.findPriorityComponents(0.5);
         this.addDescriptionToPriorityComponents();
 
-        return this.priorityAccessibilityErrors;
+        let worstComponents = {};
+        let generalString = "Worst Component #";
+
+        let numOfComponents = 5; //going to fetch 5 worst components
+        let currentCount = 0;
+        while (currentCount < numOfComponents) {
+            let worstComponentAccessibilityScore = 2; //perfect accessibility score is 1
+            let worstComponent = {"key": "value"};
+            let worstComponentKey = "";
+            for(let key in this.priorityAccessibilityErrors) {
+                const currentComponent = this.priorityAccessibilityErrors[key];
+                console.log(currentComponent)
+                if (currentComponent["Score"] < worstComponentAccessibilityScore) {
+                    worstComponentAccessibilityScore = currentComponent["Score"];
+                    worstComponent = currentComponent;
+                    worstComponentKey = key;
+                }
+            }
+            if (worstComponentKey != "") {
+                console.log("here")
+                console.log(worstComponentKey)
+                delete this.priorityAccessibilityErrors[worstComponentKey]
+            }
+
+            let key = generalString.concat((currentCount + 1).toString());
+            worstComponents[key] = worstComponent;
+            currentCount++;
+        }
+        return worstComponents;
     }
 
     extractHeaders(firstRow) {
         const headers = firstRow.split(",");
-        console.log(headers)
         let listOfNonFields = [];
         let listOfAnalyzedFields = [];
 
@@ -90,8 +117,6 @@ class CSVAnalyzer {
                 listOfNonFields.push(headers[i]);
             }
         }
-        console.log(listOfNonFields);
-        console.log(listOfAnalyzedFields);
         this.rowStructure = [...listOfNonFields, ...this.accessibilityCriteria];
     }
 
@@ -124,6 +149,7 @@ class CSVAnalyzer {
             const component = this.analysisContent[key];
             if (parseFloat(component["Score"]) <= highBound) {
                 this.priorityContent[key] = component;
+                this.priorityContent[key]["Score"] = component["Score"];
             }
         });
     }
@@ -131,6 +157,7 @@ class CSVAnalyzer {
     addDescriptionToPriorityComponents() {
         Object.keys(this.priorityContent).forEach(componentKey => {
             const component = this.priorityContent[componentKey];
+            const score = component["Score"]
             const severeIssues = {};
             const majorIssues = {};
             const minorIssues = {};
@@ -150,7 +177,8 @@ class CSVAnalyzer {
                 "Url of Component": component["Url"],
                 "severe issues": severeIssues,
                 "major issues": majorIssues,
-                "minor issues": minorIssues
+                "minor issues": minorIssues,
+                "Score": score
             };
         });
     }
@@ -160,8 +188,6 @@ class CSVAnalyzer {
 document.getElementById("csvFileInput").addEventListener("change", async (event) => {
     const file = event.target.files[0];
     if (!file) return;
-
-    console.log("here!");
     const csvAnalyzer = new CSVAnalyzer();
     try {
         const result = await csvAnalyzer.processCSV(file);

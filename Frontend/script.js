@@ -1,3 +1,4 @@
+// Select elements from the DOM
 const typingForm = document.querySelector(".typing-form");
 const chatContainer = document.querySelector(".chat-list");
 const suggestions = document.querySelectorAll(".suggestion");
@@ -10,8 +11,8 @@ let isResponseGenerating = false;
 const fileUploadInput = document.getElementById('csvFileInput');
 
 // API configuration
-const API_KEY = "AIzaSyCSDN6PwrHm1pHwo3UOt9E7KxpYhJr4iuc"; // Your API key here
-const API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=AIzaSyCSDN6PwrHm1pHwo3UOt9E7KxpYhJr4iuc`;
+const API_KEY = "______________"; // Your OpenAI API key here
+const API_URL = "https://api.openai.com/v1/chat/completions"; // OpenAI's API endpoint
 
 // Load theme and chat data from local storage on page load
 const loadDataFromLocalstorage = () => {
@@ -58,7 +59,7 @@ const showTypingEffect = (text, textElement, incomingMessageDiv) => {
   }, 75);
 }
 
-// Fetch response from the API based on user message
+// Fetch response from OpenAI API based on user message
 const generateAPIResponse = async (incomingMessageDiv) => {
   const textElement = incomingMessageDiv.querySelector(".text"); // Getting text element
 
@@ -66,20 +67,21 @@ const generateAPIResponse = async (incomingMessageDiv) => {
     // Send a POST request to the API with the user's message
     const response = await fetch(API_URL, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ 
-        contents: [{ 
-          role: "user", 
-          parts: [{ text: userMessage }] 
-        }] 
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${API_KEY}` // Include OpenAI API key in Authorization header
+      },
+      body: JSON.stringify({
+        model: "gpt-4o-mini", // Specify GPT-4o mini model
+        messages: [{ role: "user", content: userMessage }]
       }),
     });
 
     const data = await response.json();
     if (!response.ok) throw new Error(data.error.message);
 
-    // Get the API response text and remove asterisks from it
-    const apiResponse = data?.candidates[0].content.parts[0].text.replace(/\*\*(.*?)\*\*/g, '$1');
+    // Get the API response text
+    const apiResponse = data.choices[0].message.content;
     showTypingEffect(apiResponse, textElement, incomingMessageDiv); // Show typing effect
   } catch (error) { // Handle error
     isResponseGenerating = false;
@@ -93,7 +95,7 @@ const generateAPIResponse = async (incomingMessageDiv) => {
 // Show a loading animation while waiting for the API response
 const showLoadingAnimation = () => {
   const html = `<div class="message-content">
-                  <img class="avatar" src="images/gemini.svg" alt="GPT avatar">
+                  <img class="avatar" src="images/gpt4-avatar.svg" alt="GPT-4 avatar">
                   <p class="text"></p>
                   <div class="loading-indicator">
                     <div class="loading-bar"></div>
@@ -109,18 +111,18 @@ const showLoadingAnimation = () => {
   chatContainer.scrollTo(0, chatContainer.scrollHeight); // Scroll to the bottom
   generateAPIResponse(incomingMessageDiv);
 }
+
 document.querySelector('.typing-input').addEventListener('input', function () {
-  this.style.height = 'auto'; // Reset height
-  this.style.height = `${Math.min(this.scrollHeight, 5 * parseFloat(getComputedStyle(this).lineHeight))}px`; // Set new height, with max height limit
-});
-
-document.querySelector('.typing-input').addEventListener('keydown', function (event) {
-  if (event.key === "Enter" && !event.shiftKey) {  // Ensure Shift key is not held for multiline input
-    event.preventDefault(); // Prevent default action (like form submission)
-    handleOutgoingChat();   // Trigger the chat sending function
-  }
-});
-
+    this.style.height = 'auto'; // Reset height
+    this.style.height = `${Math.min(this.scrollHeight, 5 * parseFloat(getComputedStyle(this).lineHeight))}px`; // Set new height, with max height limit
+  });
+  
+  document.querySelector('.typing-input').addEventListener('keydown', function (event) {
+    if (event.key === "Enter" && !event.shiftKey) {  // Ensure Shift key is not held for multiline input
+      event.preventDefault(); // Prevent default action (like form submission)
+      handleOutgoingChat();   // Trigger the chat sending function
+    }
+  });
 
 // Copy message text to the clipboard
 const copyMessage = (copyButton) => {
@@ -152,30 +154,6 @@ const handleOutgoingChat = () => {
   chatContainer.scrollTo(0, chatContainer.scrollHeight); // Scroll to the bottom
   setTimeout(showLoadingAnimation, 500); // Show loading animation after a delay
 }
-
-// Handle file uploads
-// const handleFileUpload = (event) => {
-//   const file = event.target.files[0];
-//   if (!file) return;
-//   //else if (/*check if CSV file*/) {
-//     //pass on to csvanalyzer
-//     //display that the CSV file has been received
-//     //return early
-//   //}
-
-//   const fileName = file.name;
-
-//   const html = `<div class="message-content">
-//                   <img class="avatar" alt="User avatar">
-//                   <p class="text">Uploaded Document: ${fileName}</p>
-//                 </div>`;
-  
-//   const outgoingMessageDiv = createMessageElement(html, "outgoing");
-//   chatContainer.appendChild(outgoingMessageDiv);
-//   chatContainer.scrollTo(0, chatContainer.scrollHeight); // Scroll to the bottom
-// }
-
-// Modified handleFileUpload function in script.js
 
 const handleFileUpload = async (event) => {
   const file = event.target.files[0];
@@ -215,8 +193,17 @@ const handleFileUpload = async (event) => {
   }
 };
 
+// Attach the event listener to handle file uploads, theme toggle, delete chats, and load initial data from local storage
+fileUploadInput.addEventListener('change', handleFileUpload);
+toggleThemeButton.addEventListener("click", () => { /* theme toggle logic */ });
+deleteChatButton.addEventListener("click", () => { /* delete chats logic */ });
+typingForm.addEventListener("submit", (e) => { /* handle outgoing chat */ });
+suggestions.forEach(suggestion => suggestion.addEventListener("click", () => { /* handle suggestions */ }));
+loadDataFromLocalstorage();
+
+
 // Ensure this function is added to the file upload event listener
-//fileUploadInput.addEventListener('change', handleFileUpload);
+fileUploadInput.addEventListener('change', handleFileUpload);
 
 
 // Toggle between light and dark themes
@@ -253,4 +240,3 @@ fileUploadInput.addEventListener('change', handleFileUpload);
 
 // Load initial data from local storage
 loadDataFromLocalstorage();
-
