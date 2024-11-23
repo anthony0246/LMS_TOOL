@@ -6,6 +6,7 @@ const toggleThemeButton = document.querySelector("#theme-toggle-button");
 const deleteChatButton = document.querySelector("#delete-chat-button");
 
 // State variables
+let conversation = "";
 let userMessage = null;
 let isResponseGenerating = false;
 const fileUploadInput = document.getElementById('csvFileInput');
@@ -61,6 +62,7 @@ const showTypingEffect = (text, textElement, incomingMessageDiv) => {
 
 // Fetch response from OpenAI API based on user message
 const generateAPIResponse = async (incomingMessageDiv) => {
+  console.log(conversation)
   const textElement = incomingMessageDiv.querySelector(".text"); // Getting text element
 
   try {
@@ -73,7 +75,7 @@ const generateAPIResponse = async (incomingMessageDiv) => {
       },
       body: JSON.stringify({
         model: "gpt-4o-mini", // Specify GPT-4o mini model
-        messages: [{ role: "user", content: userMessage }]
+        messages: [{ role: "user", content: conversation }]
       }),
     });
 
@@ -145,8 +147,10 @@ const handleOutgoingChat = () => {
                   <p class="text"></p>
                 </div>`;
 
+  conversation += `${userMessage}\n`
+
   const outgoingMessageDiv = createMessageElement(html, "outgoing");
-  outgoingMessageDiv.querySelector(".text").innerText = userMessage;
+  outgoingMessageDiv.querySelector(".text").innerText = conversation;
   chatContainer.appendChild(outgoingMessageDiv);
   
   typingForm.reset(); // Clear input field
