@@ -10,6 +10,7 @@ let conversation = "";
 let userMessage = null;
 let isResponseGenerating = false;
 const fileUploadInput = document.getElementById('csvFileInput');
+let parsedCSV = false;
 
 // API configuration
 const API_KEY = "______________"; // Your OpenAI API key here
@@ -147,8 +148,12 @@ const handleOutgoingChat = () => {
                   <p class="text"></p>
                 </div>`;
 
-  conversation += `${userMessage}\n`
-
+  if (parsedCSV) {
+    conversation += `\n${userMessage}\n`
+  }
+  else {
+    conversation += `${userMessage}\n`
+  }
   const outgoingMessageDiv = createMessageElement(html, "outgoing");
   outgoingMessageDiv.querySelector(".text").innerText = conversation;
   chatContainer.appendChild(outgoingMessageDiv);
@@ -186,6 +191,7 @@ const handleFileUpload = async (event) => {
 
     // Send the analysis result to Gemini API
     handleOutgoingChat();  // This will automatically pick up `userMessage` and send it
+    parsedCSV = true;
   } catch (error) {
     console.error("Error processing CSV file:", error);
     const errorHtml = `<div class="message-content">
