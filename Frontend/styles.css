@@ -421,7 +421,7 @@ body.hide-header .header {
 .top-nav {
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: flex-end; 
   align-items: center;
   position: fixed;
   top: 0;
