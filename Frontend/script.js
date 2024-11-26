@@ -7,10 +7,12 @@ const deleteChatButton = document.querySelector("#delete-chat-button");
 
 // State variables
 let conversation = "";
+let analysisResultMessage = "";
 let userMessage = null;
 let isResponseGenerating = false;
 const fileUploadInput = document.getElementById('csvFileInput');
 let parsedCSV = false;
+let firstTime = false;
 
 // API configuration
 const API_KEY = "______________"; // Your OpenAI API key here
@@ -63,7 +65,6 @@ const showTypingEffect = (text, textElement, incomingMessageDiv) => {
 
 // Fetch response from OpenAI API based on user message
 const generateAPIResponse = async (incomingMessageDiv) => {
-  console.log(conversation)
   const textElement = incomingMessageDiv.querySelector(".text"); // Getting text element
 
   try {
@@ -148,11 +149,12 @@ const handleOutgoingChat = () => {
                   <p class="text"></p>
                 </div>`;
 
-  if (parsedCSV) {
-    conversation += `\n${userMessage}\n`
+  if (parsedCSV && firstTime) {
+    conversation = `${analysisResultMessage}\n`
+    firstTime = false;
   }
   else {
-    conversation += `${userMessage}\n`
+    conversation = `${analysisResultMessage}\n\nQuestion:\n${userMessage}\n`
   }
   const outgoingMessageDiv = createMessageElement(html, "outgoing");
   outgoingMessageDiv.querySelector(".text").innerText = conversation;
@@ -162,6 +164,11 @@ const handleOutgoingChat = () => {
   document.body.classList.add("hide-header");
   chatContainer.scrollTo(0, chatContainer.scrollHeight); // Scroll to the bottom
   setTimeout(showLoadingAnimation, 500); // Show loading animation after a delay
+  
+  window.scrollTo({
+    top: document.body.scrollHeight || document.documentElement.scrollHeight,
+    behavior: 'smooth', // Makes the scrolling smooth
+  });
 }
 
 const handleFileUpload = async (event) => {
@@ -178,6 +185,7 @@ const handleFileUpload = async (event) => {
 
     // Format analysis result into a string to send as the first message
     userMessage = `CSV Analysis Result:\n${JSON.stringify(analysisResult, null, 2)}`;
+    analysisResultMessage = `CSV Analysis Result:\n${JSON.stringify(analysisResult, null, 2)}`;
 
     // Display confirmation message about uploaded file
     const fileName = file.name;
@@ -189,9 +197,10 @@ const handleFileUpload = async (event) => {
     chatContainer.appendChild(outgoingMessageDiv);
     chatContainer.scrollTo(0, chatContainer.scrollHeight);
 
-    // Send the analysis result to Gemini API
-    handleOutgoingChat();  // This will automatically pick up `userMessage` and send it
+    // Send the analysis result to OpenAI API
     parsedCSV = true;
+    firstTime = true;
+    handleOutgoingChat();  // This will automatically pick up `userMessage` and send it
   } catch (error) {
     console.error("Error processing CSV file:", error);
     const errorHtml = `<div class="message-content">
