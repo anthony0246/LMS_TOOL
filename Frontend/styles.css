@@ -486,3 +486,37 @@ body.hide-header .header {
     font-size: 0.9rem;
   }
 }
+/* Navigation bar title styles */
+.nav-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--text-color);
+  margin-right: 1rem;
+  background: linear-gradient(45deg, #FF5722, #E91E63, #3F51B5, #FF5722);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-animation 5s infinite ease-in-out;
+}
+
+/* Crazy gradient animation */
+@keyframes gradient-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Title container styling for spacing */
+.title-container {
+  display: flex;
+  align-items: center;
+  margin-right: auto;
+  padding-left: 1rem;
+}
+
