@@ -146,6 +146,26 @@ body.hide-header .header {
   align-items: flex-start; /* Align messages to the left by default */
   margin-bottom: 1.5rem; /* Adds space between messages */
 }
+.message {
+  white-space: pre-wrap; /* Preserve newlines */
+  word-wrap: break-word; /* Break long words if needed */
+  overflow-wrap: break-word; /* Break long words if needed */
+  max-width: 100%; /* Ensure messages don't overflow their container */
+}
+
+.message-content {
+  white-space: normal; /* Allow the text to wrap */
+  word-wrap: break-word; /* Break long words if necessary */
+  overflow-wrap: break-word; /* Alternative for better compatibility */
+  word-break: break-word; /* Ensures long words break when necessary */
+  max-width: 100%; /* Prevents overflow if message exceeds screen size */
+}
+
+.outgoing .message-content {
+  white-space: pre-wrap; /* Allow line breaks */
+  word-wrap: wrap; /* Ensure long words wrap */
+  line-break: loose;
+}
 
 /* Outgoing messages (user) */
 .chat-list .message.outgoing {
@@ -163,6 +183,7 @@ body.hide-header .header {
   border-radius: 0.8rem;
   color: var(--text-color);
   max-width: 80%; /* Keeps user messages at a reasonable width */
+  min-width: 40%;
   text-align: left; /* Keeps text alignment consistent */
 }
 
@@ -178,11 +199,11 @@ body.hide-header .header {
 
 .chat-list .message .text {
   color: var(--text-color);
-  white-space: normal; /* Ensures text wraps properly */
-  overflow-wrap: break-word; /* Breaks long words and ensures they fit */
-  margin-bottom: 1rem; /* Space between messages */
-  line-height: 1.8; /* Adjusted line height for better readability */
-  max-width: 90%; /* Prevents messages from stretching too far across */
+  white-space: normal; /* Allow text to wrap */
+  word-break: break-word; /* Ensure long words break at appropriate points */
+  overflow-wrap: break-word; /* Ensure compatibility across browsers */
+  word-wrap: break-word; /* Ensure it works with older browsers */
+  max-width: 100%; /* Allow it to fit within the container */
 }
 
 .chat-list .message.error .text {
