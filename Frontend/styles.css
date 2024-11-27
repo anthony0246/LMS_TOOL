@@ -182,8 +182,6 @@ body.hide-header .header {
   padding: 0.8rem 1rem;
   border-radius: 0.8rem;
   color: var(--text-color);
-  max-width: 80%; /* Keeps user messages at a reasonable width */
-  min-width: 40%;
   text-align: left; /* Keeps text alignment consistent */
 }
 
