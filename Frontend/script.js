@@ -154,7 +154,12 @@ const handleOutgoingChat = () => {
     firstTime = false;
   }
   else {
-    conversation = `${analysisResultMessage}\n\nQuestion:\n${userMessage}\n`
+    if (analysisResultMessage == "") {
+      conversation = `Question:\n${userMessage}\n`
+    }
+    else {
+      conversation = `${analysisResultMessage}\n\nQuestion:\n${userMessage}\n`
+    }
   }
   const outgoingMessageDiv = createMessageElement(html, "outgoing");
   outgoingMessageDiv.querySelector(".text").innerText = conversation;
