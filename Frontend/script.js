@@ -195,7 +195,7 @@ const handleFileUpload = async (event) => {
     // Display confirmation message about uploaded file
     const fileName = file.name;
     const html = `<div class="message-content">
-                    <img class="avatar" alt="User avatar">
+                    <img class="avatar" alt="User avatar" src="../Images/user-image.png">
                     <p class="text">Uploaded Document: ${fileName}</p>
                   </div>`;
     const outgoingMessageDiv = createMessageElement(html, "outgoing");
